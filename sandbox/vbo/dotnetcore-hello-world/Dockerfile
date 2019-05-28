@@ -6,19 +6,13 @@ RUN apt-get update
 RUN curl -sL https://deb.nodesource.com/setup_9.x | bash -
 RUN apt-get install net-tools procps vim nano tree nodejs openssh-server -y
 
-RUN mkdir /var/run/sshd
-RUN echo 'root:root' | chpasswd
-RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-# SSH login fix. Otherwise user is kicked off after login
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-ENV NOTVISIBLE "in users profile"
-RUN echo "export VISIBLE=now" >> /etc/profile
-RUN useradd userx
-RUN echo 'userx:userx' | chpasswd
-RUN echo 'alias ls="ls --color"' >> /root/.bashrc
+RUN mkdir -p /app/hello-world
+COPY Program.cs /app/hello-world
+COPY hello-world.csproj /app/hello-world
+RUN cd /app/hello-world; dotnet build
 
 EXPOSE 5000
 EXPOSE 8000
 EXPOSE 22
-CMD service ssh start && tail -f /var/log/lastlog
+CMD dotnet /app/hello-world/bin/Debug/netcoreapp2.2/hello-world.dll
 
