@@ -20,4 +20,5 @@ RUN echo 'alias ls="ls --color"' >> /root/.bashrc
 EXPOSE 5000
 EXPOSE 8000
 EXPOSE 22
+EXPOSE 80
 CMD service ssh start && tail -f /var/log/lastlog
