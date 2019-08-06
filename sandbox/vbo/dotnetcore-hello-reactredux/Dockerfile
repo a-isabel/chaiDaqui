@@ -2,8 +2,8 @@
 # FROM microsoft/dotnet:2.0-sdk
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2
 RUN apt-get update
-RUN curl -sL https://deb.nodesource.com/setup_9.x | bash -
-RUN apt-get install net-tools procps vim nano tree nodejs openssh-server -y
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get install net-tools procps vim nano tree nodejs -y
 
 RUN mkdir -p /app/hello-reactredux
 COPY .  /app/hello-reactredux
